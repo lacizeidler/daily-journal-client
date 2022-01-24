@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react"
 
-export const EntryForm = ({ entry, moods, onFormSubmit }) => {
+export const EntryForm = ({ entry, moods, entryTag, tags, onFormSubmit }) => {
     const [editMode, setEditMode] = useState(false)
     const [updatedEntry, setUpdatedEntry] = useState(entry)
+    const [updatedEntryTag, setUpdatedEntryTag] = useState(entryTag)
+
+    useEffect(() => {
+        setUpdatedEntryTag(entryTag)
+    }, [entryTag])
 
     useEffect(() => {
         setUpdatedEntry(entry)
@@ -22,11 +27,11 @@ export const EntryForm = ({ entry, moods, onFormSubmit }) => {
         const newEntry = Object.assign({}, updatedEntry)
         newEntry[event.target.name] = event.target.value
         setUpdatedEntry(newEntry)
+        const newEntryTag = Object.assign({}, updatedEntryTag)
+        newEntryTag[event.target.id] = event.target.value
+        setUpdatedEntryTag(newEntryTag)
     }
-
-
-
-    const constructNewEntry = () => {
+        const constructNewEntry = () => {
         const copyEntry = { ...updatedEntry }
         copyEntry.moodId = parseInt(copyEntry.moodId)
         if (!copyEntry.date) {
@@ -76,9 +81,22 @@ export const EntryForm = ({ entry, moods, onFormSubmit }) => {
                                         <option key={m.id} value={m.id}>
                                             {m.label}
                                         </option>
-                                    ))}
+                                    ))} 
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                    <div className="field">
+                        <label htmlFor="moodId" className="label">Tags: </label>
+                        <div className="control">
+                                {
+                                    tags.map(t => (
+                                        <label style={{margin: " 0px 10px"}}>
+                                            <input type="checkbox" key={t.id} value={t.id} />
+                                            {t.name}
+                                        </label>
+                                    ))
+                                }
                         </div>
                     </div>
                     <div className="field">

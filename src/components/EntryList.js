@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Entry } from "./Entry";
 import { searchEntries } from "./EntryManager";
 
-export const EntryList = ({ moods, entries, onEditButtonClick, onDeleteButtonClick }) => {
+export const EntryList = ({ moods, entryTags, entries, onEditButtonClick, onDeleteButtonClick }) => {
 
   const [filteredEntries, setEntries] = useState([]);
   const [searchedTerm, setTerm] = useState("");
@@ -18,7 +18,7 @@ export const EntryList = ({ moods, entries, onEditButtonClick, onDeleteButtonCli
 
 
   const filterAllEntries = (moodId) => {
-    const filteredEntriesByMood = entries.filter(entry => entry.moodId === parseInt(moodId))
+    const filteredEntriesByMood = entries.filter(entry => entry.mood_id === parseInt(moodId))
     setEntries(filteredEntriesByMood)
     setMoodSelected(parseInt(moodId))
   }
@@ -63,7 +63,8 @@ export const EntryList = ({ moods, entries, onEditButtonClick, onDeleteButtonCli
           <Entry
             key={entry.id}
             entry={entry}
-            mood={moods.find(m => m.id === entry.moodId)}
+            mood={moods.find(m => m.id === entry.mood_id)}
+            entryTags={entryTags.find(t => t.entry_id === entry.id)}
             onEditButtonClick={onEditButtonClick}
             onDeleteButtonClick={onDeleteButtonClick}
           />
